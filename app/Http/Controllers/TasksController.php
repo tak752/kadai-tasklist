@@ -15,10 +15,10 @@ class TasksController extends Controller
      */
     public function index()
     {
-        // メッセージ一覧を取得
+        // タスク一覧を取得
         $tasks = Task::all();
 
-        // メッセージ一覧ビューでそれを表示
+        // タスク一覧ビューでそれを表示
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
@@ -33,7 +33,7 @@ class TasksController extends Controller
     {
         $task = new Task;
 
-        // メッセージ作成ビューを表示
+        // タスク作成ビューを表示
         return view('tasks.create', [
             'task' => $task,
         ]);
@@ -71,7 +71,7 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        // idの値でメッセージを検索して取得
+        // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
         // タスク詳細ビューでそれを表示
@@ -88,7 +88,7 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        // idの値でメッセージを検索して取得
+        // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
         // タスク編集ビューでそれを表示
