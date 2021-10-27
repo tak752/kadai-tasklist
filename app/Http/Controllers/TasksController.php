@@ -54,10 +54,15 @@ class TasksController extends Controller
         ]);
         
         // タスクを作成
-        $task = new Task;
-        $task->content = $request->content;
-        $task->status = $request->status;       
-        $task->save();
+        $request->user()->tasks()->create([
+            // $task = new Task;
+            // $task->user_id = $request->user_id; 
+            // $task->content = $request->content;
+            // $task->status = $request->status,
+            'user_id' => $request->user_id,
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
 
         // トップページへリダイレクトさせる
         return redirect('/');
@@ -115,6 +120,7 @@ class TasksController extends Controller
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         // タスクを更新
+        $task->user_id = $request->user_id;
         $task->content = $request->content;
         $task->status = $request->status;    
         $task->save();
