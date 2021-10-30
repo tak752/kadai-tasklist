@@ -98,11 +98,14 @@ class TasksController extends Controller
     {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-
-        // タスク詳細ビューでそれを表示
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        
+        if (\Auth::id() === $task->user_id) {
+            // タスク詳細ビューでそれを表示
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -116,10 +119,13 @@ class TasksController extends Controller
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
-        // タスク編集ビューでそれを表示
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if (\Auth::id() === $task->user_id) {
+            // タスク編集ビューでそれを表示
+            return view('tasks.edit', [
+                'task' => $task,
+            ]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -139,11 +145,13 @@ class TasksController extends Controller
         
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-        // タスクを更新
-        $task->user_id = $request->user_id;
-        $task->content = $request->content;
-        $task->status = $request->status;    
-        $task->save();
+        if (\Auth::id() === $task->user_id) {
+            // タスクを更新
+            $task->user_id = $request->user_id;
+            $task->content = $request->content;
+            $task->status = $request->status;    
+            $task->save();
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');
@@ -159,9 +167,10 @@ class TasksController extends Controller
     {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-        // タスクを削除
-        $task->delete();
-
+        if (\Auth::id() === $task->user_id) {
+            // タスクを削除
+            $task->delete();
+        }
         // トップページへリダイレクトさせる
         return redirect('/');
     }
