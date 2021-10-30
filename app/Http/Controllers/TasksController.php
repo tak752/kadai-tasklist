@@ -75,10 +75,6 @@ class TasksController extends Controller
         
         // タスクを作成
         $request->user()->tasks()->create([
-            // $task = new Task;
-            // $task->user_id = $request->user_id; 
-            // $task->content = $request->content;
-            // $task->status = $request->status,
             'user_id' => $request->user_id,
             'content' => $request->content,
             'status' => $request->status,
@@ -147,7 +143,6 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
         if (\Auth::id() === $task->user_id) {
             // タスクを更新
-            $task->user_id = $request->user_id;
             $task->content = $request->content;
             $task->status = $request->status;    
             $task->save();
